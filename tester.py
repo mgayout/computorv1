@@ -1,13 +1,24 @@
-from parser import validChar,validSign
+from myparser import validSign, validValue
 
 def parse(arg):
-    print(arg)
-    if validChar(arg):
-        return True
-    new_arg = arg.split(" ")
-    if validSign(new_arg):
-        return True
-    return False
+    #print(f"{arg} = ", end="")
+    splited_arg = arg.split(" ")
+    sign = False
+    equal = 0
+    for token in splited_arg:
+        #print(token, sign)
+        if sign is True and validSign(token, equal) is True:
+            if token == "=":
+                equal += 1
+            pass
+        elif sign is False and validValue(token) is True:
+            pass
+        else:
+            return False
+        sign = not sign
+    if equal != 1 or sign is False:
+        return False
+    return True
 
 def main():
     print(parse("5 * X^0 + 4 * X^1 = 4 * X^0")) # Correct
@@ -16,7 +27,7 @@ def main():
     print(parse("5 * X^0 + 4 * X^1 + = 4 * X^0")) # Incorrect end with sign (before =)
     print(parse("5 * X^0 + 4 * X^1 = + 4 * X^0")) # Incorrect start with sign (after =)
     print(parse("5 * X^0 + 4 * X^1 = 4 * X^0 +")) # Incorrect end with sign (after =)
-    print(parse("5 ** X^0 + 4 * X^1 = 4 * X^0")) # Incorrect double sign
+    print(parse("5 +* X^0 + 4 * X^1 = 4 * X^0")) # Incorrect double sign
     print(parse("5 * X^0 + 4 * X^1 == 4 * X^0")) # Incorrect double egal
     print(parse("5 * X^0 = + 4 * X^1 = 4 * X^0")) # Incorrect double equation
     print(parse("5a * X^0 + 4 * X^1 = 4 * X^0")) # Incorrect alphabetic character
@@ -25,12 +36,6 @@ def main():
     print(parse("5 * X^0 + 4 * X^1 =")) # Incorrect end with =
     print(parse("5* X^0 + 4 * X^1 = 4 * X^0")) # Incorrect missing space
     print(parse("5 * X^0 + 4 * X^ = 4 * X^0")) # Incorrect missing expo after X^
-    print(parse("5 * X^0 + 4 * X^1 = 4 * X^0")) # Incorrect
-
 
 if __name__ == "__main__":
     main()
-
-
-#DOUBLE SIGN +-
-#Missing expo
