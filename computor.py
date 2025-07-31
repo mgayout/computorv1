@@ -7,8 +7,7 @@ def main():
             raise ValueError("bad args")
         if len(sys.argv[1]) == 0:
             raise ValueError("bad args")
-        cmpt = computor()
-        cmpt.run(sys.argv[1])
+        cmpt = computor(sys.argv[1])
 
     except ValueError as err:
         print(ValueError.__name__ + ":", err)

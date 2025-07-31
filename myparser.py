@@ -1,14 +1,13 @@
-def validSign(token, equal):
+def validSign(token):
     if token in "+-*/=" and len(token) == 1:
         return True
     return False
 
 def validValue(token):
-    if token.isdigit() or token == "X":
+    if token.isdigit():
         return True
-    elif token.startswith("X^") and len(token) >= 3 and all(c in "0123456789" for c in token[2:]):
+    if '.' in token and token[0] != '.' and token[len(token) - 1] != '.':
+        return True
+    elif token.startswith("X^") and len(token) >= 3 and all(c in "0123456789." for c in token[2:]):
         return True
     return False
-
-#if not all(c in "X0123456789^" for c in token):
-#        return True
